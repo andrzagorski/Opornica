@@ -14,37 +14,56 @@ MainWindow::MainWindow(QWidget *parent)
     this->arduino=new QSerialPort;  //arduino
     serialBuffer="";
 
-        const QList<QCameraInfo> cameras = QCameraInfo::availableCameras();
-         m_Camera1=new QCamera(cameras[0]);
-         m_Camera2=new QCamera(cameras[1]);
-         m_Camera3=new QCamera(cameras[2]);
+    QList<QCameraInfo> cameras = QCameraInfo::availableCameras();
 
-    m_CameraViewfinder1=new QCameraViewfinder(this);
-    m_CameraImageCapture1 = new QCameraImageCapture(m_Camera1,this);
-    m_layout1=new QVBoxLayout;
+          QList<QCameraInfo>::iterator i;
 
-    m_Camera1->setViewfinder(m_CameraViewfinder1);
-    m_layout1->addWidget(m_CameraViewfinder1);
-    m_layout1->setMargin(0);
-    ui->camera0_place->setLayout(m_layout1);
+          for (i = cameras.begin(); i != cameras.end(); ++i) {
+              if(number_of_cameras==0) {
+                  m_Camera1=new QCamera(cameras[0]);
 
-    m_CameraViewfinder2=new QCameraViewfinder(this);
-    m_CameraImageCapture2 = new QCameraImageCapture(m_Camera2,this);
-    m_layout2=new QVBoxLayout;
+                  m_CameraViewfinder1=new QCameraViewfinder(this);
+                   m_CameraImageCapture1 = new QCameraImageCapture(m_Camera1,this);
+                   m_layout1=new QVBoxLayout;
 
-    m_Camera2->setViewfinder(m_CameraViewfinder2);
-    m_layout2->addWidget(m_CameraViewfinder2);
-    m_layout2->setMargin(0);
-    ui->camera1_place->setLayout(m_layout2);
+                  m_Camera1->setViewfinder(m_CameraViewfinder1);
+                   m_layout1->addWidget(m_CameraViewfinder1);
+                   m_layout1->setMargin(0);
+                   ui->camera0_place->setLayout(m_layout1);
 
-    m_CameraViewfinder3=new QCameraViewfinder(this);
-    m_CameraImageCapture3 = new QCameraImageCapture(m_Camera3,this);
-    m_layout3=new QVBoxLayout;
+              }
+              else if(number_of_cameras==1) {
+                  m_Camera2=new QCamera(cameras[1]);
 
-    m_Camera3->setViewfinder(m_CameraViewfinder3);
-    m_layout3->addWidget(m_CameraViewfinder3);
-    m_layout3->setMargin(0);
-    ui->camera2_place->setLayout(m_layout3);
+                  m_CameraViewfinder2=new QCameraViewfinder(this);
+                  m_CameraImageCapture2 = new QCameraImageCapture(m_Camera2,this);
+                  m_layout2=new QVBoxLayout;
+
+                  m_Camera2->setViewfinder(m_CameraViewfinder2);
+                  m_layout2->addWidget(m_CameraViewfinder2);
+                  m_layout2->setMargin(0);
+                  ui->camera1_place->setLayout(m_layout2);
+
+              }
+              else if(number_of_cameras==2) {
+                  m_Camera3=new QCamera(cameras[2]);
+
+                  m_CameraViewfinder3=new QCameraViewfinder(this);
+                  m_CameraImageCapture3 = new QCameraImageCapture(m_Camera3,this);
+                  m_layout3=new QVBoxLayout;
+
+                  m_Camera3->setViewfinder(m_CameraViewfinder3);
+                  m_layout3->addWidget(m_CameraViewfinder3);
+                  m_layout3->setMargin(0);
+                  ui->camera2_place->setLayout(m_layout3);
+              }
+
+              number_of_cameras++;
+          }
+
+          this->add_monitor_log("Wykryto( "+QString::number(number_of_cameras)+" ) Kamery");
+
+
 
 
 
@@ -150,61 +169,95 @@ void MainWindow::on_rozlacz_button_clicked()
 }
 
 
+
 void MainWindow::on_camera_0_check_stateChanged(int arg1){
     if(arg1==2) {
 
-        //qDebug()<<m_Camera1->availability();
-       // if(m_Camera1->availability()==0) {
-          //  this->add_monitor_log("KAMERA NR 0 NIE JEST DOSTĘPNA!");
-       // }
-
-       // else {
+       if(number_of_cameras<1) {
+            this->add_monitor_log("KAMERA NR 0 NIE JEST DOSTĘPNA!");
+        }
+        else {
             ui->camera_0_check->setText("ON");
             m_Camera1->start();
-       // }
-
+        }
     }
     else {
-        ui->camera_0_check->setText("OFF");
-        m_Camera1->stop();
-
+        if(number_of_cameras<1) {
+            ui->camera_0_check->setText("OFF");
+}
+        else {
+            ui->camera_0_check->setText("OFF");
+            m_Camera1->stop();
+        }
     }
 }
 
 void MainWindow::on_camera_1_check_stateChanged(int arg1){
     if(arg1==2) {
 
-       // if(m_Camera2->availability()==0) {
-           // this->add_monitor_log("KAMERA NR 1 NIE JEST DOSTĘPNA!");
-       // }
-       // else {
+      if(number_of_cameras<2) {
+            this->add_monitor_log("KAMERA NR 1 NIE JEST DOSTĘPNA!");
+        }
+        else {
         ui->camera_1_check->setText("ON");
         m_Camera2->start();
- //   }
+    }
 }
     else {
-        ui->camera_1_check->setText("OFF");
-        m_Camera2->stop();
-
+        if(number_of_cameras<2) {
+            ui->camera_1_check->setText("OFF");
+}
+        else {
+            ui->camera_1_check->setText("OFF");
+            m_Camera2->stop();
+        }
     }
 }
 
 void MainWindow::on_camera_2_check_stateChanged(int arg1){
     if(arg1==2) {
 
-       // if(m_Camera3->availability()==0) {
-         //   this->add_monitor_log("KAMERA NR 2 NIE JEST DOSTĘPNA!");
-       // }
-      //  else {
+        if(number_of_cameras<3) {
+            this->add_monitor_log("KAMERA NR 2 NIE JEST DOSTĘPNA!");
+        }
+        else {
             m_Camera3->start();
             ui->camera_2_check->setText("ON");
-      //       }
+             }
     }
     else {
-        ui->camera_2_check->setText("OFF");
-        m_Camera3->stop();
+        if(number_of_cameras<3) {
+            ui->camera_2_check->setText("OFF");
+        }
+        else {
+            ui->camera_2_check->setText("OFF");
+            m_Camera3->stop();
+        }
 
     }
 }
 
+void MainWindow::on_pushButton_2_clicked()
+{
+    if(this->arduino->isOpen()){
+    this->arduino->write("l");
+    }
+    else{
+        this->add_monitor_log("Port nie jest otwarty!");
+        return;
+    }
+}
+
+
+
+void MainWindow::on_pushButton_clicked()
+{
+    if(this->arduino->isOpen()){
+    this->arduino->write("p");
+    }
+    else{
+        this->add_monitor_log("Port nie jest otwarty!");
+        return;
+    }
+}
 

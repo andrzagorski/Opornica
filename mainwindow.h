@@ -43,6 +43,10 @@ private slots:
 
     void on_camera_2_check_stateChanged(int arg1);
 
+    void on_pushButton_2_clicked();
+
+    void on_pushButton_clicked();
+
 private:
     Ui::MainWindow *ui;
     QList<QSerialPortInfo> dev;
@@ -53,7 +57,8 @@ private:
     QByteArray serialData;
     QString serialBuffer;
 
-
+    // camera
+        unsigned int number_of_cameras=0;
     // CAMERA 1
     QCamera *m_Camera1;
     QCameraViewfinder *m_CameraViewfinder1;
