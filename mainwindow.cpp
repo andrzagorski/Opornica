@@ -6,6 +6,7 @@
 #include <QCameraImageCapture>
 #include <QVBoxLayout>
 #include <QCameraInfo>
+#include <QDialog>
 MainWindow::MainWindow(QWidget *parent)
     : QMainWindow(parent)
     , ui(new Ui::MainWindow)
@@ -89,17 +90,37 @@ MainWindow::~MainWindow()
 
 void MainWindow::readSerial()
 {
+
         serialData =arduino->readAll();
-        float napiecie=serialData.toFloat();
-        serialBuffer += QString::fromStdString(serialData.toStdString());
+        std::string serialowe=serialData.toStdString();
+        char krancowkaLewa{'-'};
+        char krancowkaPrawa{'-'};
+        double Voltage{0};
+        int i=0;
+        bool czyWyjsc=true;
+        while (czyWyjsc) {
+           if (serialowe[i]=='L') {
+                krancowkaLewa=serialowe[i+1];
 
-        //qDebug()<<serialBuffer;
-        qDebug()<<"napiecie"<<napiecie;
-        serialBuffer="";
+           }
+           if (serialowe[i]=='P') {
+                krancowkaPrawa=serialowe[i+1];
 
-        ui->lcdNumber_VOLTAGE->display(napiecie);
-   // qDebug()<<"zmienna_napiecie: "<<napiecie
+            }
+           if (serialowe[i]=='V') {
+                Voltage=serialowe[i+1];
 
+                }
+
+            if( i==5){
+                czyWyjsc=false;
+            }
+            i++;
+        }
+        if(krancowkaLewa=='0')ui->checkBox_lewaKrancowka->setChecked(true);
+        else ui->checkBox_lewaKrancowka->setChecked(false);
+        if(krancowkaPrawa=='0')ui->checkBoxPrawaKrancowka->setChecked(true);
+        else {ui->checkBoxPrawaKrancowka->setChecked(false);}
 }
 
 
@@ -260,4 +281,6 @@ void MainWindow::on_pushButton_clicked()
         return;
     }
 }
+
+
 

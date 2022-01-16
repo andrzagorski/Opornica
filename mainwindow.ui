@@ -90,19 +90,6 @@
      </item>
     </layout>
    </widget>
-   <widget class="QProgressBar" name="progressBar">
-    <property name="geometry">
-     <rect>
-      <x>490</x>
-      <y>390</y>
-      <width>411</width>
-      <height>23</height>
-     </rect>
-    </property>
-    <property name="value">
-     <number>1</number>
-    </property>
-   </widget>
    <widget class="QWidget" name="verticalLayoutWidget_3">
     <property name="geometry">
      <rect>
@@ -152,40 +139,6 @@
        </item>
        <item>
         <widget class="QLCDNumber" name="lcdNumber_VOLTAGE"/>
-       </item>
-      </layout>
-     </item>
-     <item>
-      <layout class="QVBoxLayout" name="verticalLayout_5">
-       <item>
-        <widget class="QLabel" name="label_4">
-         <property name="text">
-          <string>R1</string>
-         </property>
-         <property name="alignment">
-          <set>Qt::AlignCenter</set>
-         </property>
-        </widget>
-       </item>
-       <item>
-        <widget class="QLCDNumber" name="lcdNumber_2"/>
-       </item>
-      </layout>
-     </item>
-     <item>
-      <layout class="QVBoxLayout" name="verticalLayout_6">
-       <item>
-        <widget class="QLabel" name="label_5">
-         <property name="text">
-          <string>R2</string>
-         </property>
-         <property name="alignment">
-          <set>Qt::AlignCenter</set>
-         </property>
-        </widget>
-       </item>
-       <item>
-        <widget class="QLCDNumber" name="lcdNumber_3"/>
        </item>
       </layout>
      </item>
@@ -258,7 +211,7 @@
     <property name="geometry">
      <rect>
       <x>560</x>
-      <y>430</y>
+      <y>460</y>
       <width>291</width>
       <height>41</height>
      </rect>
@@ -417,6 +370,38 @@
       </layout>
      </item>
     </layout>
+   </widget>
+   <widget class="QCheckBox" name="checkBox_lewaKrancowka">
+    <property name="geometry">
+     <rect>
+      <x>490</x>
+      <y>400</y>
+      <width>101</width>
+      <height>19</height>
+     </rect>
+    </property>
+    <property name="text">
+     <string>Krańcówka lewa</string>
+    </property>
+   </widget>
+   <widget class="QCheckBox" name="checkBoxPrawaKrancowka">
+    <property name="geometry">
+     <rect>
+      <x>771</x>
+      <y>400</y>
+      <width>111</width>
+      <height>20</height>
+     </rect>
+    </property>
+    <property name="layoutDirection">
+     <enum>Qt::RightToLeft</enum>
+    </property>
+    <property name="text">
+     <string>Krańcówka prawa</string>
+    </property>
+    <property name="checkable">
+     <bool>true</bool>
+    </property>
    </widget>
   </widget>
   <widget class="QMenuBar" name="menubar">
