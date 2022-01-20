@@ -117,10 +117,23 @@ void MainWindow::readSerial()
             }
             i++;
         }
-        if(krancowkaLewa=='0')ui->checkBox_lewaKrancowka->setChecked(true);
-        else ui->checkBox_lewaKrancowka->setChecked(false);
-        if(krancowkaPrawa=='0')ui->checkBoxPrawaKrancowka->setChecked(true);
-        else {ui->checkBoxPrawaKrancowka->setChecked(false);}
+        if(krancowkaLewa=='0'){
+            ui->checkBox_lewaKrancowka->setChecked(true);
+            ui->pushButton->setEnabled(false);
+        }
+        else{
+            ui->checkBox_lewaKrancowka->setChecked(false);
+            ui->pushButton->setEnabled(true);
+        }
+        if(krancowkaPrawa=='0'){
+            ui->checkBoxPrawaKrancowka->setChecked(true);
+            ui->pushButton_2->setEnabled(false);
+        }
+        else {
+            ui->checkBoxPrawaKrancowka->setChecked(false);
+            ui->pushButton_2->setEnabled(true);
+
+        }
 }
 
 
@@ -274,7 +287,7 @@ void MainWindow::on_pushButton_2_clicked()
 void MainWindow::on_pushButton_clicked()
 {
     if(this->arduino->isOpen()){
-    this->arduino->write("p");
+    this->arduino->write("pp");
     }
     else{
         this->add_monitor_log("Port nie jest otwarty!");
